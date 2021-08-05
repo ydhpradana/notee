@@ -51,6 +51,6 @@ func main() {
 		fmt.Scan(&a.nameEncode)
 		fmt.Print("\nDecode of Student’s Name " + a.nameEncode + " is : " + c.Decode())
 	} else {
-		fmt.Println("Wrong input name menu")
+		fmt.Println("Wrong input name menu abcd")
 	}
 }
