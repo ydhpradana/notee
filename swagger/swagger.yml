@@ -210,7 +210,7 @@ paths:
     delete:
       security:
         - bearerAuth: []
-      summary: Update a Category by ID.
+      summary: Delete a Category by ID.
       parameters:
         - in: path
           name: catID
@@ -303,7 +303,75 @@ paths:
               data:
                 $ref: '#/definitions/Notes'
         400:
-          description: Bad Request    
+          description: Bad Request
+  /notes/{noteID}:
+    get:
+      security:
+          - bearerAuth: []
+      summary: Returns a Note by ID.
+      parameters:
+        - in: path
+          name: noteID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/EditNotes'     
+    put:
+      security:
+        - bearerAuth: []
+      summary: Update a Note by ID.
+      parameters:
+        - in: path
+          name: noteID
+          required: true
+          type: integer
+        - in: body
+          name: Put Note
+          description: Note Update
+          schema:
+            type: object
+            required:
+            - user_id
+            - category_id
+            - title
+            - note
+            - is_free
+            properties:
+              user_id :
+                type: integer
+                example: 1
+              category_id :
+                type: integer
+                example: 1
+              title:
+                type: string
+                example: Puisi Aku
+              note:
+                type: string
+                example: Aku adalah aku
+              is_free:
+                type: boolean
+                example: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Notes'     
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Delete a Note by ID.
+      parameters:
+        - in: path
+          name: noteID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
 definitions:
   securitySchemes:
     bearerAuth:
@@ -409,14 +477,37 @@ definitions:
     required:
     - id
     - user_id
-    - name
+    - user_name
+    - category_id
+    - category_name
+    - title
+    - note
+    - is_free
     properties:
       id:
         type: integer
         example: 1
-      name:
+      user_id:
+        type: integer
+        example: 1
+      user_name:
+        type: string
+        example: Yudha
+      category_id:
+        type: integer
+        example: 1
+      category_name:
         type: string
         example: Puisi
+      title:
+        type: string
+        example: Aku
+      note:
+        type: string
+        example: Aku adalah Aku
+      is_free:
+        type: boolean
+        example: true
   ListNotes:
     type: array object
     required:
