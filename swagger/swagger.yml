@@ -50,7 +50,165 @@ paths:
                 $ref: '#/definitions/JWT'
         400:
           description: invalid input, object invalid
+  /register:
+    post:
+      tags:
+      - Auth
+      summary: Register User
+      description: |
+        send some data register
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Register User
+        description: Register User
+        schema:
+          type: object
+          required:
+          - name
+          - email
+          - password
+          properties:
+            name:
+              type: string
+              example: Yudha
+            email:
+              type: string
+              format: email
+              example: yudha.pradana@amartha.com
+            password:
+              type: string
+              example: k!UUdja21Sxh
+      responses:
+        200:
+          description: Response User Register
+          schema:
+            type: object
+            properties:
+              status_code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: 'OK'
+              data:
+                $ref: '#/definitions/Register'
+        400:
+          description: Bad Request
+  /categories:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+      - Kategori
+      summary: Kategori Note
+      description: |
+        get some data category
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Response Get Category
+          schema:
+            type: object
+            properties:
+              status_code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: 'OK'
+              data:
+                $ref: '#/definitions/ListCategories'
+        400:
+          description: Bad Request
+    post:
+      security:
+          - bearerAuth: []
+      tags:
+      - Kategori
+      summary: Kategori Note
+      description: |
+        post data category
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Post Category
+        description: Category Note
+        schema:
+          type: object
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              example: Puisi
+      responses:
+        200:
+          description: Response Post Category
+          schema:
+            type: object
+            properties:
+              status_code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: 'OK'
+              data:
+                $ref: '#/definitions/Categories'
+        400:
+          description: Bad Request
+  /categories/{catID}:
+    get:
+      summary: Returns a Category by ID.
+      parameters:
+        - in: path
+          name: catID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/EditCategories'     
+    put:
+      summary: Update a Category by ID.
+      parameters:
+        - in: path
+          name: catID
+          required: true
+          type: integer
+        - in: body
+          name: Put Category
+          description: Category Note Update
+          schema:
+            type: object
+            required:
+            - name
+            properties:
+              name:
+                type: string
+                example: Puisi Update
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Categories'     
 definitions:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   Login:
     type: object
     required:
@@ -59,11 +217,60 @@ definitions:
     properties:
       email:
         type: string
-        example: jhon@doe@gmail.com
+        example: john.doe@gmail.com
       password:
         type: string
         example: QwanjjaseuQeq
         description: encrypted password AES
+  Register:
+    type: object
+    required:
+    - name
+    - email
+    - password
+    properties:
+      name:
+        type: string
+        example: John Doe
+      email:
+        type: string
+        example: john.doe@gmail.com
+      password:
+        type: string
+        example: QwanjjaseuQeq
+        description: encrypted password AES
+  Categories:
+    type: object
+    required:
+    - name
+    properties:
+      name:
+        type: string
+        example: Puisi
+  EditCategories:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: Puisi
+  ListCategories:
+    type: array object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: Puisi
   JWT:
     type: object
     required:
@@ -86,8 +293,5 @@ definitions:
         type: string
         example: 2021-08-09T12:02:57Z
         format: date-time
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /yudhapradana/notee
-schemes:
- - https
+security:
+  - bearerAuth: []
