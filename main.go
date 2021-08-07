@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"notee/configs"
+	"notee/routes"
+)
+
 
 func main() {
-	fmt.Println("Final Project")
+	configs.InitDB()
+	e := routes.New()
+	e.Start(":8010")
 }
+
