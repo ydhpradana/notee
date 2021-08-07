@@ -428,30 +428,12 @@ definitions:
       name:
         type: string
         example: Puisi
-  EditCategories:
-    type: object
-    required:
-    - id
-    - name
-    properties:
-      id:
-        type: integer
-        example: 1
-      name:
-        type: string
-        example: Puisi
-  ListCategories:
-    type: array object
-    required:
-    - id
-    - name
-    properties:
-      id:
-        type: integer
-        example: 1
-      name:
-        type: string
-        example: Puisi
+      created_at:
+        type: datetime
+        example: 2021-08-09T
+      updated_at:
+        type: datetime
+        example: 2021-08-09T
   Notes:
     type: object
     required:
@@ -480,78 +462,12 @@ definitions:
       is_free:
         type: boolean
         example: true
-  EditNotes:
-    type: object
-    required:
-    - id
-    - user_id
-    - user_name
-    - category_id
-    - category_name
-    - title
-    - note
-    - is_free
-    properties:
-      id:
-        type: integer
-        example: 1
-      user_id:
-        type: integer
-        example: 1
-      user_name:
-        type: string
-        example: Yudha
-      category_id:
-        type: integer
-        example: 1
-      category_name:
-        type: string
-        example: Puisi
-      title:
-        type: string
-        example: Aku
-      note:
-        type: string
-        example: Aku adalah Aku
-      is_free:
-        type: boolean
-        example: true
-  ListNotes:
-    type: array object
-    required:
-    - id
-    - user_id
-    - user_name
-    - category_id
-    - category_name
-    - title
-    - note
-    - is_free
-    properties:
-      id:
-        type: integer
-        example: 1
-      user_id:
-        type: integer
-        example: 1
-      user_name:
-        type: string
-        example: Yudha
-      category_id:
-        type: integer
-        example: 1
-      category_name:
-        type: string
-        example: Puisi
-      title:
-        type: string
-        example: Aku
-      note:
-        type: string
-        example: Aku adalah Aku
-      is_free:
-        type: boolean
-        example: true
+      created_at:
+        type: datetime
+        example: 2021-08-09T
+      updated_at:
+        type: datetime
+        example: 2021-08-09T
   JWT:
     type: object
     required:
