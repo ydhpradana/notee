@@ -15,6 +15,14 @@ info:
 tags:
 - name: Auth
   description: Authentication Api
+- name: Login
+  description: User Login
+- name: Register
+  description: User Register
+- name: Categories
+  description: Category Note
+- name: Note
+  description: Note
 
 paths:
   /login:
