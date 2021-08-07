@@ -15,10 +15,6 @@ info:
 tags:
 - name: Auth
   description: Authentication Api
-- name: Login
-  description: User Login
-- name: Register
-  description: User Register
 - name: Categories
   description: Category Note
 - name: Note
@@ -111,8 +107,8 @@ paths:
       security:
         - bearerAuth: []
       tags:
-      - Kategori
-      summary: Kategori Note
+      - Categories
+      summary: Get List Data Kategori Note
       description: |
         get some data category
       consumes:
@@ -140,8 +136,8 @@ paths:
       security:
           - bearerAuth: []
       tags:
-      - Kategori
-      summary: Kategori Note
+      - Categories
+      summary: Post Kategori Note
       description: |
         post data category
       consumes:
@@ -181,7 +177,15 @@ paths:
     get:
       security:
           - bearerAuth: []
-      summary: Returns a Category by ID.
+      tags:
+      - Categories
+      summary: Kategori Note By ID
+      description: |
+        get data category by id
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
         - in: path
           name: catID
@@ -196,7 +200,15 @@ paths:
     put:
       security:
         - bearerAuth: []
-      summary: Update a Category by ID.
+      tags:
+      - Categories
+      summary: Update Kategori Note By ID
+      description: |
+        put data category by id
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
         - in: path
           name: catID
@@ -222,7 +234,15 @@ paths:
     delete:
       security:
         - bearerAuth: []
-      summary: Delete a Category by ID.
+      tags:
+      - Categories
+      summary: Delete Kategori Note By ID
+      description: |
+        delete data category
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
         - in: path
           name: catID
@@ -240,7 +260,7 @@ paths:
         - bearerAuth: []
       tags:
       - Note
-      summary: Note
+      summary: Get List Data Note
       description: |
         get some data note
       consumes:
@@ -269,7 +289,7 @@ paths:
           - bearerAuth: []
       tags:
       - Note
-      summary: Note
+      summary: Post Note
       description: |
         post data Note
       consumes:
@@ -325,7 +345,15 @@ paths:
     get:
       security:
           - bearerAuth: []
-      summary: Returns a Note by ID.
+      tags:
+      - Note
+      summary: Get Note By ID
+      description: |
+        get data Note by id
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
         - in: path
           name: noteID
@@ -340,7 +368,15 @@ paths:
     put:
       security:
         - bearerAuth: []
+      tags:
+      - Note
       summary: Update a Note by ID.
+      description: |
+        get data Note by id
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
         - in: path
           name: noteID
@@ -382,7 +418,15 @@ paths:
     delete:
       security:
         - bearerAuth: []
+      tags:
+      - Note
       summary: Delete a Note by ID.
+      description: |
+        get data Note by id
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
         - in: path
           name: noteID
@@ -419,6 +463,8 @@ definitions:
     - name
     - email
     - password
+    - created_at
+    - updated_at
     properties:
       name:
         type: string
@@ -430,30 +476,35 @@ definitions:
         type: string
         example: QwanjjaseuQeq
         description: encrypted password AES
+      created_at:
+        type: string
+        example: 2021-08-09T12:02:57Z
+        format: date-time
+      updated_at:
+        type: string
+        example: 2021-08-09T12:02:57Z
+        format: date-time
   Categories:
     type: object
     required:
-    - id
     - name
     - created_at
     - updated_at
     properties:
-      id:
-        type: integer
-        example: 1
       name:
         type: string
         example: Puisi
       created_at:
-        type: datetime
-        example: 2021-08-09T
+        type: string
+        example: 2021-08-09T12:02:57Z
+        format: date-time
       updated_at:
-        type: datetime
-        example: 2021-08-09T
+        type: string
+        example: 2021-08-09T12:02:57Z
+        format: date-time
   Notes:
     type: object
     required:
-    - id
     - user_id
     - category_id
     - title
@@ -462,9 +513,6 @@ definitions:
     - created_at
     - updated_at
     properties:
-      id:
-        type: integer
-        example: 1
       user_id:
         type: integer
         example: 1
@@ -481,11 +529,13 @@ definitions:
         type: boolean
         example: true
       created_at:
-        type: datetime
-        example: 2021-08-09T
+        type: string
+        example: 2021-08-09T12:02:57Z
+        format: date-time
       updated_at:
-        type: datetime
-        example: 2021-08-09T
+        type: string
+        example: 2021-08-09T12:02:57Z
+        format: date-time
   JWT:
     type: object
     required:
