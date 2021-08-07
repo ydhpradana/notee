@@ -132,7 +132,8 @@ paths:
                 type: string
                 example: 'OK'
               data:
-                $ref: '#/definitions/ListCategories'
+                type : array
+                $ref: '#/definitions/Categories'
         400:
           description: Bad Request
     post:
@@ -172,6 +173,7 @@ paths:
                 type: string
                 example: 'OK'
               data:
+                type : object
                 $ref: '#/definitions/Categories'
         400:
           description: Bad Request
@@ -189,7 +191,8 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/EditCategories'     
+            type: object
+            $ref: '#/definitions/Categories'     
     put:
       security:
         - bearerAuth: []
@@ -214,6 +217,7 @@ paths:
         200:
           description: OK
           schema:
+            type: object
             $ref: '#/definitions/Categories'     
     delete:
       security:
@@ -227,6 +231,9 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+            $ref: '#/definitions/Categories'
   /note:
     get:
       security:
@@ -253,7 +260,8 @@ paths:
                 type: string
                 example: 'OK'
               data:
-                $ref: '#/definitions/ListNots'
+                type: array
+                $ref: '#/definitions/Notes'
         400:
           description: Bad Request
     post:
@@ -309,6 +317,7 @@ paths:
                 type: string
                 example: 'OK'
               data:
+                type: object
                 $ref: '#/definitions/Notes'
         400:
           description: Bad Request
@@ -326,7 +335,8 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/EditNotes'     
+            type: object
+            $ref: '#/definitions/Notes'     
     put:
       security:
         - bearerAuth: []
@@ -367,6 +377,7 @@ paths:
         200:
           description: OK
           schema:
+            type: object
             $ref: '#/definitions/Notes'     
     delete:
       security:
@@ -380,6 +391,9 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+            $ref: '#/definitions/Notes'
 definitions:
   securitySchemes:
     bearerAuth:
@@ -421,6 +435,8 @@ definitions:
     required:
     - id
     - name
+    - created_at
+    - updated_at
     properties:
       id:
         type: integer
@@ -443,6 +459,8 @@ definitions:
     - title
     - note
     - is_free
+    - created_at
+    - updated_at
     properties:
       id:
         type: integer
