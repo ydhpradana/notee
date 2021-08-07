@@ -15,6 +15,14 @@ info:
 tags:
 - name: Auth
   description: Authentication Api
+- name: Login
+  description: User Login
+- name: Register
+  description: User Register
+- name: Categories
+  description: Category Note
+- name: Note
+  description: Note
 
 paths:
   /login:
@@ -124,7 +132,8 @@ paths:
                 type: string
                 example: 'OK'
               data:
-                $ref: '#/definitions/ListCategories'
+                type : array
+                $ref: '#/definitions/Categories'
         400:
           description: Bad Request
     post:
@@ -164,6 +173,7 @@ paths:
                 type: string
                 example: 'OK'
               data:
+                type : object
                 $ref: '#/definitions/Categories'
         400:
           description: Bad Request
@@ -181,7 +191,8 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/EditCategories'     
+            type: object
+            $ref: '#/definitions/Categories'     
     put:
       security:
         - bearerAuth: []
@@ -206,6 +217,7 @@ paths:
         200:
           description: OK
           schema:
+            type: object
             $ref: '#/definitions/Categories'     
     delete:
       security:
@@ -219,6 +231,9 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+            $ref: '#/definitions/Categories'
   /note:
     get:
       security:
@@ -245,7 +260,8 @@ paths:
                 type: string
                 example: 'OK'
               data:
-                $ref: '#/definitions/ListNots'
+                type: array
+                $ref: '#/definitions/Notes'
         400:
           description: Bad Request
     post:
@@ -301,6 +317,7 @@ paths:
                 type: string
                 example: 'OK'
               data:
+                type: object
                 $ref: '#/definitions/Notes'
         400:
           description: Bad Request
@@ -318,7 +335,8 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/EditNotes'     
+            type: object
+            $ref: '#/definitions/Notes'     
     put:
       security:
         - bearerAuth: []
@@ -359,6 +377,7 @@ paths:
         200:
           description: OK
           schema:
+            type: object
             $ref: '#/definitions/Notes'     
     delete:
       security:
@@ -372,6 +391,9 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+            $ref: '#/definitions/Notes'
 definitions:
   securitySchemes:
     bearerAuth:
@@ -413,6 +435,8 @@ definitions:
     required:
     - id
     - name
+    - created_at
+    - updated_at
     properties:
       id:
         type: integer
@@ -420,30 +444,12 @@ definitions:
       name:
         type: string
         example: Puisi
-  EditCategories:
-    type: object
-    required:
-    - id
-    - name
-    properties:
-      id:
-        type: integer
-        example: 1
-      name:
-        type: string
-        example: Puisi
-  ListCategories:
-    type: array object
-    required:
-    - id
-    - name
-    properties:
-      id:
-        type: integer
-        example: 1
-      name:
-        type: string
-        example: Puisi
+      created_at:
+        type: datetime
+        example: 2021-08-09T
+      updated_at:
+        type: datetime
+        example: 2021-08-09T
   Notes:
     type: object
     required:
@@ -453,6 +459,8 @@ definitions:
     - title
     - note
     - is_free
+    - created_at
+    - updated_at
     properties:
       id:
         type: integer
@@ -472,78 +480,12 @@ definitions:
       is_free:
         type: boolean
         example: true
-  EditNotes:
-    type: object
-    required:
-    - id
-    - user_id
-    - user_name
-    - category_id
-    - category_name
-    - title
-    - note
-    - is_free
-    properties:
-      id:
-        type: integer
-        example: 1
-      user_id:
-        type: integer
-        example: 1
-      user_name:
-        type: string
-        example: Yudha
-      category_id:
-        type: integer
-        example: 1
-      category_name:
-        type: string
-        example: Puisi
-      title:
-        type: string
-        example: Aku
-      note:
-        type: string
-        example: Aku adalah Aku
-      is_free:
-        type: boolean
-        example: true
-  ListNotes:
-    type: array object
-    required:
-    - id
-    - user_id
-    - user_name
-    - category_id
-    - category_name
-    - title
-    - note
-    - is_free
-    properties:
-      id:
-        type: integer
-        example: 1
-      user_id:
-        type: integer
-        example: 1
-      user_name:
-        type: string
-        example: Yudha
-      category_id:
-        type: integer
-        example: 1
-      category_name:
-        type: string
-        example: Puisi
-      title:
-        type: string
-        example: Aku
-      note:
-        type: string
-        example: Aku adalah Aku
-      is_free:
-        type: boolean
-        example: true
+      created_at:
+        type: datetime
+        example: 2021-08-09T
+      updated_at:
+        type: datetime
+        example: 2021-08-09T
   JWT:
     type: object
     required:
