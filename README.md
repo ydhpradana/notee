@@ -4,7 +4,7 @@ Kumpulan tulisan dari berbagai jenis yang bisa di akses banyak pihak
 
 # API Documentation
 
-Buka file swagger.yaml
+Buka file swagger.yaml pada folder swagger
 
 # Arsitektur Code
 
