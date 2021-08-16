@@ -6,12 +6,20 @@ import (
 	_userController "notee/controllers/users"
 	_userRepo "notee/drivers/databases/users"
 
+	_categoryUseCase "notee/business/categories"
+	_categoryController "notee/controllers/categories"
+	_categoryRepo "notee/drivers/databases/categories"
+
 	_dbHelper "notee/helpers/databases"
 
 	"time"
 
-	"github.com/labstack/echo"
+	_middleware "notee/app/middleware"
+	_routes "notee/app/routes"
+
+	echo "github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
+	"gorm.io/gorm"
 )
 
 func init(){
@@ -26,6 +34,14 @@ func init(){
 	}
 }
 
+func dbMigrate(db *gorm.DB) {
+	db.AutoMigrate(
+		// &_newsRepo.News{},
+		// &_categoryRepo.Category{},
+		&_userRepo.User{} ,
+	)
+}
+
 
 func main() {
 	configdb := _dbHelper.ConfigDB{
@@ -36,13 +52,25 @@ func main() {
 		DB_Database: viper.GetString(`database.name`),
 	}
 	db := configdb.InitDB()
+	dbMigrate(db)
+	
+	configJWT := _middleware.ConfigJWT{
+		SecretJWT:       viper.GetString(`jwt.secret`),
+		ExpiresDuration: viper.GetInt(`jwt.expired`),
+	}
+	
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
-
+	
 	e := echo.New()
 
 	userRepo := _userRepo.NewMysqlUserRepository(db)
-	newUserUsecase := _userUseCase.NewUserUsecase(userRepo, timeoutContext)
-	_userController.NewUserController(e, newUserUsecase)
+	newUserUsecase := _userUseCase.NewUserUsecase(userRepo, &configJWT, timeoutContext)
+	userCtrl := _userController.NewUserController(newUserUsecase)
+	
+	
+	categoryRepo := _categoryRepo.NewMysqlCategoryRepository(db)
+	newCategoryUsecase := _categoryUseCase.NewCategoryUsecase(categoryRepo, timeoutContext)
+	categoryCtrl := _categoryController.NewCategoryController(newCategoryUsecase)
 
 	// eAuth := e.Group("")
 	// eAuth.Use(middleware.JWT([]byte(viper.GetString(`jwt.Key`)))
@@ -50,5 +78,13 @@ func main() {
 	// newsRepo := _newsRepo.NewMySQLNewsRepository(db)
 	// newsUsecase := _newsUsecase.NewNewsUsecase(newsRepo, categoryUsecase, ipLocator, timeoutContext)
 	// _newsController.NewNewsController(e, newsUsecase)
+
+	routesInit := _routes.ControllerList{
+		JWTMiddleware:      configJWT.Init(),
+		UserController:     *userCtrl,
+		// NewsController:     *newsCtrl,
+		CategoryController: *categoryCtrl,
+	}
+	routesInit.RouteRegister(e)
 	log.Fatal(e.Start(viper.GetString("server.address")))
 }

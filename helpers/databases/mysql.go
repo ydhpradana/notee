@@ -2,6 +2,8 @@ package databases
 
 import (
 	"fmt"
+	"notee/drivers/databases/categories"
+	"notee/drivers/databases/notes"
 	"notee/drivers/databases/users"
 
 	"gorm.io/driver/mysql"
@@ -34,4 +36,6 @@ func (config *ConfigDB) InitDB() *gorm.DB {
 
 func Migrate(DB *gorm.DB) {
 	DB.AutoMigrate(&users.User{})
+	DB.AutoMigrate(&categories.Category{})
+	DB.AutoMigrate(&notes.Note{})
 }

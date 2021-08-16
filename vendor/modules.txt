@@ -5,6 +5,9 @@ github.com/dgrijalva/jwt-go
 github.com/fsnotify/fsnotify
 # github.com/go-sql-driver/mysql v1.6.0
 github.com/go-sql-driver/mysql
+# github.com/golang-jwt/jwt v3.2.2+incompatible
+## explicit
+github.com/golang-jwt/jwt
 # github.com/hashicorp/hcl v1.0.0
 github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/ast
@@ -26,9 +29,12 @@ github.com/labstack/echo
 # github.com/labstack/echo/v4 v4.5.0
 ## explicit
 github.com/labstack/echo/v4
+github.com/labstack/echo/v4/middleware
 # github.com/labstack/gommon v0.3.0
+github.com/labstack/gommon/bytes
 github.com/labstack/gommon/color
 github.com/labstack/gommon/log
+github.com/labstack/gommon/random
 # github.com/magiconair/properties v1.8.1
 github.com/magiconair/properties
 # github.com/mattn/go-colorable v0.1.8
@@ -82,6 +88,8 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
+# golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
+golang.org/x/time/rate
 # gopkg.in/ini.v1 v1.51.0
 gopkg.in/ini.v1
 # gopkg.in/yaml.v2 v2.2.4

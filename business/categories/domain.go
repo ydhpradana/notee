@@ -7,20 +7,27 @@ import (
 
 type Domain struct {
 	Id        uint
+	Name      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time
-	Name      string
 }
 
 type UseCase interface{
-	Fetch(ctx context.Context, page, perpage string) ([]Domain, error)
-	GetByID(ctx context.Context, catID int) (Domain, error)
+	GetById(ctx context.Context, catID string) (Domain, error)
+	GetAll(ctx context.Context) ([]Domain, error)
+	GetByName(ctx context.Context, search string) ([]Domain, error)
 	Store(ctx context.Context, catDomain *Domain) error
+	Update(ctx context.Context, catDomain *Domain, id string) error
+	Delete(ctx context.Context, id string) error
+	// GetByActive(ctx context.Context, active bool) ([]Domain, error)
 }
 
 type Repository interface{
-	Fetch(ctx context.Context, email, password string) ([]Domain, error)
-	GetByID(ctx context.Context, catID int) (Domain, error)
+	Find(ctx context.Context, search string) ([]Domain, error)
+	FindAll(ctx context.Context) ([]Domain, error)
+	FindById(ctx context.Context, catID string) (Domain, error)
 	Store(ctx context.Context, catDomain *Domain) error
+	Update(ctx context.Context, catDomain *Domain, id string) error
+	Delete(ctx context.Context, id string) error
 }

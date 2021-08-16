@@ -1,7 +1,7 @@
 {
     "debug": true,
     "server": {
-      "address": ":81"
+      "address": ":8090"
     },
     "context":{
       "timeout":2
@@ -12,5 +12,9 @@
         "user": "root",
         "pass": "",
         "name": "notee"
+    },
+    "jwt" : {
+      "secret" : "supersecret12345!@#$%",
+      "expired" : 1
     }
   }
