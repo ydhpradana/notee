@@ -65,3 +65,25 @@ func (repository *MysqlCategoryRepository) Store(ctx context.Context, categoryDo
 
 	return nil
 }
+
+func (repository *MysqlCategoryRepository) Update(ctx context.Context, categoryDomain *categories.Domain, id string) error {
+	rec := fromDomain(*categoryDomain)
+	id_param, _ := strconv.Atoi(id)
+	result := repository.Conn.Where("id = ?", id_param).Updates(rec)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
+
+func (repository *MysqlCategoryRepository) Delete(ctx context.Context, id string) error {
+	rec := Category{}
+	id_param, _ := strconv.Atoi(id)
+	result := repository.Conn.Where("id = ?", id_param).Delete(rec)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
