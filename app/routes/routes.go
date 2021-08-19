@@ -61,8 +61,8 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 
 	rating := e.Group("rating")
 	rating.POST("/store", cl.RatingController.Store, middleware.JWTWithConfig(cl.JWTMiddleware))
-	rating.POST("/update/:id", cl.RatingController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
-	rating.POST("/delete/:id", cl.RatingController.Delete, middleware.JWTWithConfig(cl.JWTMiddleware))
+	rating.PUT("/update/:id", cl.RatingController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
+	rating.DELETE("/delete/:id", cl.RatingController.Delete, middleware.JWTWithConfig(cl.JWTMiddleware))
 	rating.GET("/note/:id", cl.RatingController.GetById, middleware.JWTWithConfig(cl.JWTMiddleware))
 
 	// news := e.Group("news")
