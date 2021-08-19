@@ -66,3 +66,35 @@ func (ctrl *CategoryController) Store(c echo.Context) error {
 
 	return controllers.NewSuccessResponse(c, "Successfully inserted")
 }
+
+func (ctrl *CategoryController) Update(c echo.Context) error {
+	ctx := c.Request().Context()
+	id := c.Param("id")
+	req := request.Categories{}
+	if err := c.Bind(&req); err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	err := ctrl.CategoryUseCase.Update(ctx, req.ToDomain(), id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+
+	return controllers.NewSuccessResponse(c, "Successfully updated")
+}
+
+func (ctrl *CategoryController) Delete(c echo.Context) error {
+	ctx := c.Request().Context()
+	id := c.Param("id")
+	req := request.Categories{}
+	if err := c.Bind(&req); err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	err := ctrl.CategoryUseCase.Delete(ctx, id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+
+	return controllers.NewSuccessResponse(c, "Successfully deleted")
+}

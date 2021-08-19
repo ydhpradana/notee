@@ -14,7 +14,7 @@
         "name": "notee"
     },
     "jwt" : {
-      "secret" : "supersecret12345!@#$%",
-      "expired" : 1
+      "secret" : "SuperSecret12345!@#$%",
+      "expired" : 100
     }
   }

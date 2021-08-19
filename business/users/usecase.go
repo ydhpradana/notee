@@ -5,7 +5,6 @@ import (
 	"notee/app/middleware"
 	"notee/business"
 	"notee/helpers/hash"
-	"notee/helpers/middlewares"
 	"strings"
 	"time"
 )
@@ -33,11 +32,6 @@ func (usecase *UserUseCase) Login(ctx context.Context, email, password string) (
 		return Domain{}, err
 	}
 	//hash_password, err := hash.Hash(password)
-	match := hash.ValidateHash(password, result.Password)
-	if !match {
-		return Domain{}, business.ErrInternalServer
-	}
-	result.Token, _ = middlewares.GenerateTokenJWT(int32(result.Id))
 	return result, nil
 }
 
@@ -67,15 +61,15 @@ func (uc *UserUseCase) Store(ctx context.Context, userDomain *Domain) error {
 	return nil
 }
 
-func (uc *UserUseCase) CreateToken(ctx context.Context, username, password string) (string, error) {
+func (uc *UserUseCase) CreateToken(ctx context.Context, email, password string) (string, error) {
 	ctx, cancel := context.WithTimeout(ctx, uc.ContextTimeout)
 	defer cancel()
 
-	if strings.TrimSpace(username) == "" && strings.TrimSpace(password) == "" {
+	if strings.TrimSpace(email) == "" && strings.TrimSpace(password) == "" {
 		return "", business.ErrUsernamePasswordNotFound
 	}
 
-	userDomain, err := uc.Repository.GetByEmail(ctx, username)
+	userDomain, err := uc.Repository.GetByEmail(ctx, email)
 	if err != nil {
 		return "", err
 	}
@@ -84,16 +78,15 @@ func (uc *UserUseCase) CreateToken(ctx context.Context, username, password strin
 		return "", business.ErrInternalServer
 	}
 
-	token := uc.jwtAuth.GenerateToken(int(userDomain.Id))
+	token := uc.jwtAuth.GenerateToken(int(userDomain.ID))
 	return token, nil
 }
 
-func (usecase *UserUseCase) GetById(ctx context.Context, id string) (Domain, error) {
+func (usecase *UserUseCase) GetById(ctx context.Context, id int) (Domain, error) {
 	result, err := usecase.Repository.GetById(ctx, id)
 		if err != nil {
 		return Domain{}, err
 	}
-
-	
 	return result, nil
 }
+

@@ -2,6 +2,8 @@ package notes
 
 import (
 	"context"
+	"notee/drivers/databases/categories"
+	"notee/drivers/databases/users"
 	"time"
 )
 
@@ -10,9 +12,9 @@ type Domain struct {
 	Title      		string
 	Note      		string
 	CategoryId      int
-	CategoryName    string
+	Category    	categories.Category
 	UserId      	int
-	UserName    	string
+	User    		users.User
 	IsFree    		bool
 	CreatedAt 		time.Time
 	UpdatedAt 		time.Time
@@ -26,7 +28,9 @@ type UseCase interface {
 	GetByCatId(ctx context.Context, catID string) ([]Domain, error)
 	GetByUserId(ctx context.Context, userID string) ([]Domain, error)
 	GetByIsFree(ctx context.Context, isFree string) ([]Domain, error)
-	Store(ctx context.Context, catDomain *Domain) error
+	Store(ctx context.Context, noteDomain *Domain) error
+	Update(ctx context.Context, noteDomain *Domain, id string) error
+	Delete(ctx context.Context, id string) error
 	// GetByActive(ctx context.Context, active bool) ([]Domain, error)
 }
 
@@ -37,5 +41,7 @@ type Repository interface {
 	FindByCatId(ctx context.Context, catID string) ([]Domain, error)
 	FindByUserId(ctx context.Context, userID string) ([]Domain, error)
 	FindByIsFree(ctx context.Context, isFree string) ([]Domain, error)
-	Store(ctx context.Context, catDomain *Domain) error
+	Store(ctx context.Context, noteDomain *Domain) error
+	Update(ctx context.Context, noteDomain *Domain, id string) error
+	Delete(ctx context.Context, id string) error
 }

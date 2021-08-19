@@ -75,3 +75,25 @@ func (nu *NoteUseCase) GetByIsFree(ctx context.Context, free string) ([]Domain, 
 	}
 	return result, err
 }
+
+func (nu *NoteUseCase) Update(ctx context.Context, catDomain *Domain, id string) error {
+	ctx, cancel := context.WithTimeout(ctx, nu.ContextTimeout)
+	defer cancel()
+
+	err := nu.NoteRepository.Update(ctx, catDomain, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (nu *NoteUseCase) Delete(ctx context.Context, id string) error {
+	ctx, cancel := context.WithTimeout(ctx, nu.ContextTimeout)
+	defer cancel()
+
+	err := nu.NoteRepository.Delete(ctx, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

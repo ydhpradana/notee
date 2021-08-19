@@ -2,8 +2,9 @@ package users
 
 import (
 	"context"
+	"notee/business"
 	"notee/business/users"
-	"strconv"
+	"notee/helpers/hash"
 
 	"gorm.io/gorm"
 )
@@ -18,12 +19,17 @@ func NewMysqlUserRepository(conn *gorm.DB) users.Repository {
 	}
 }
 
-func (repository *MysqlUserRepository) Login(ctx context.Context, email, password string) (users.Domain, error) {
+func (repository *MysqlUserRepository) Login(ctx context.Context, email, password string) (users.Domain , error) {
 	var userLogin = User{}
 	result := repository.Conn.Where("email = ? ", email).First(&userLogin)
 	if result.Error != nil {
 		return users.Domain{}, result.Error
 	}
+	match := hash.ValidateHash(password, userLogin.Password)
+	if !match {
+		return users.Domain{}, business.ErrInternalServer
+	}
+
 	return userLogin.toDomain(), nil
 }
 
@@ -36,10 +42,9 @@ func (repository *MysqlUserRepository) GetByEmail(ctx context.Context, email str
 	return rec.toDomain(), nil
 }
 
-func (repository *MysqlUserRepository) GetById(ctx context.Context, id string) (users.Domain, error) {
+func (repository *MysqlUserRepository) GetById(ctx context.Context, id int) (users.Domain, error) {
 	rec := User{}
-	id_param, _ := strconv.Atoi(id)
-	err := repository.Conn.Where("id = ?", id_param ).First(&rec).Error
+	err := repository.Conn.Where("id = ?", id ).First(&rec).Error
 	if err != nil {
 		return users.Domain{}, err
 	}
