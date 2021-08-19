@@ -3,6 +3,7 @@ package routes
 import (
 	"notee/controllers/categories"
 	"notee/controllers/notes"
+	"notee/controllers/ratings"
 	"notee/controllers/transactions"
 	"notee/controllers/users"
 
@@ -17,6 +18,7 @@ type ControllerList struct {
 	CategoryController  categories.CategoryController
 	NoteController  	notes.NoteController
 	TransactionController  	transactions.TransactionController
+	RatingController  	ratings.RatingController
 }
 
 func (cl *ControllerList) RouteRegister(e *echo.Echo) {
@@ -41,6 +43,7 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	note.GET("", cl.NoteController.GetAll, middleware.JWTWithConfig(cl.JWTMiddleware))
 	note.GET("/id/:id", cl.NoteController.GetById, middleware.JWTWithConfig(cl.JWTMiddleware))
 	note.GET("/user/:id", cl.NoteController.GetByUserId, middleware.JWTWithConfig(cl.JWTMiddleware))
+	note.GET("/mynote", cl.NoteController.GetNote, middleware.JWTWithConfig(cl.JWTMiddleware))
 	note.GET("/cat/:id", cl.NoteController.GetByCatId, middleware.JWTWithConfig(cl.JWTMiddleware))
 	note.GET("/isfree/:free", cl.NoteController.GetByIsFree, middleware.JWTWithConfig(cl.JWTMiddleware))
 	note.PUT("/update/:id", cl.NoteController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
@@ -55,6 +58,12 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	// trx.GET("/user/:id", cl.TranactionController.GetByUserId, middleware.JWTWithConfig(cl.JWTMiddleware))
 	// trx.GET("/cat/:id", cl.TranactionController.GetByCatId, middleware.JWTWithConfig(cl.JWTMiddleware))
 	// trx.GET("/isfree/:free", cl.TranactionController.GetByIsFree, middleware.JWTWithConfig(cl.JWTMiddleware))
+
+	rating := e.Group("rating")
+	rating.POST("/store", cl.RatingController.Store, middleware.JWTWithConfig(cl.JWTMiddleware))
+	rating.POST("/update/:id", cl.RatingController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
+	rating.POST("/delete/:id", cl.RatingController.Delete, middleware.JWTWithConfig(cl.JWTMiddleware))
+	rating.GET("/note/:id", cl.RatingController.GetById, middleware.JWTWithConfig(cl.JWTMiddleware))
 
 	// news := e.Group("news")
 	// news.POST("/store", cl.NewsController.Store, middleware.JWTWithConfig(cl.JWTMiddleware))

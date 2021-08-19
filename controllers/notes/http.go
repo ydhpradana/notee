@@ -2,16 +2,20 @@ package notes
 
 import (
 	"net/http"
+	"notee/app/middleware"
 	"notee/business/notes"
 	"notee/controllers"
 	"notee/controllers/notes/request"
+	_response "notee/controllers/notes/response"
 
 	echo "github.com/labstack/echo/v4"
 )
 
 type NoteController struct {
 	NoteUseCase notes.UseCase
+	jwtAuth 	*middleware.ConfigJWT
 }
+
 
 func NewNoteController(noteUC notes.UseCase) *NoteController {
 	return &NoteController{
@@ -27,7 +31,7 @@ func (controller *NoteController) GetById(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, note)
+	return controllers.NewSuccessResponse(c, _response.FromDomain(note))
 }
 
 func (controller *NoteController) GetByCatId(c echo.Context) error {
@@ -38,7 +42,12 @@ func (controller *NoteController) GetByCatId(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, note)
+	responseController := []_response.Note{}
+	for _, value := range note {
+		responseController = append(responseController, _response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }
 
 func (controller *NoteController) GetByUserId(c echo.Context) error {
@@ -52,6 +61,25 @@ func (controller *NoteController) GetByUserId(c echo.Context) error {
 	return controllers.NewSuccessResponse(c, note)
 }
 
+func (controller *NoteController) GetNote(c echo.Context) error {
+	ctx := c.Request().Context()
+	user, err := controller.jwtAuth.GetUser(c)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	resp, err := controller.NoteUseCase.GetNote(ctx, user.ID)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+
+	responseController := []_response.Note{}
+	for _, value := range resp {
+		responseController = append(responseController, _response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
+}
+
 func (controller *NoteController) GetByIsFree(c echo.Context) error {
 	id := c.Param("free")
 	note, err := controller.NoteUseCase.GetByIsFree(c.Request().Context(), id)
@@ -60,7 +88,12 @@ func (controller *NoteController) GetByIsFree(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, note)
+	responseController := []_response.Note{}
+	for _, value := range note {
+		responseController = append(responseController, _response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }
 
 func (controller *NoteController) GetByName(c echo.Context) error {
@@ -71,7 +104,12 @@ func (controller *NoteController) GetByName(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, note)
+	responseController := []_response.Note{}
+	for _, value := range note {
+		responseController = append(responseController, _response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }
 
 func (controller *NoteController) GetAll(c echo.Context) error {
@@ -81,7 +119,12 @@ func (controller *NoteController) GetAll(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, note)
+	responseController := []_response.Note{}
+	for _, value := range note {
+		responseController = append(responseController, _response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }
 
 func (ctrl *NoteController) Store(c echo.Context) error {

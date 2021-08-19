@@ -128,3 +128,20 @@ func (repository *MysqlNoteRepository) Delete(ctx context.Context, id string) er
 
 	return nil
 }
+
+func (repository *MysqlNoteRepository) GetNote(ctx context.Context, userID int) ([]notes.Domain, error) {
+	rec := []Note{}
+
+	err := repository.Conn.Preload("Categories").Preload("Users").Where("notes.user_id = ?", userID).Find(&rec).Error
+	//err := repository.Conn.Preload(clause.Associations).Where("transactions.user_id = ?", userID).Find(&rec).Error
+	if err != nil {
+		return []notes.Domain{}, err
+	}
+
+	noteDomain := []notes.Domain{}
+	for _, value := range rec {
+		noteDomain = append(noteDomain, value.toDomain())
+	}
+
+	return noteDomain, nil
+}
