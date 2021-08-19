@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	Id        uint      `json:"id"`
+	ID        uint      `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt time.Time `json:"deletedAt"`
@@ -17,7 +17,7 @@ type User struct {
 
 func FromDomain(domain users.Domain) User {
 	return User{
-		Id:        domain.Id,
+		ID:        domain.ID,
 		CreatedAt: domain.CreatedAt,
 		UpdatedAt: domain.UpdatedAt,
 		DeletedAt: domain.DeletedAt,

@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	"net/http"
-	controller "notee/controllers"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -24,9 +22,9 @@ func (jwtConf *ConfigJWT) Init() middleware.JWTConfig {
 	return middleware.JWTConfig{
 		Claims:     &JwtCustomClaims{},
 		SigningKey: []byte(jwtConf.SecretJWT),
-		ErrorHandlerWithContext: middleware.JWTErrorHandlerWithContext(func(e error, c echo.Context) error {
-			return controller.NewErrorResponse(c, http.StatusForbidden, e)
-		}),
+		// ErrorHandlerWithContext: middleware.JWTErrorHandlerWithContext(func(e error, c echo.Context) error {
+		// 	return controller.NewErrorResponse(c, http.StatusForbidden, e)
+		// }),
 	}
 }
 
@@ -47,8 +45,8 @@ func (jwtConf *ConfigJWT) GenerateToken(userID int) string {
 }
 
 // GetUser from jwt ...
-func GetUser(c echo.Context) *JwtCustomClaims {
+func (jwtConf *ConfigJWT) GetUser(c echo.Context) (*JwtCustomClaims, error) {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(*JwtCustomClaims)
-	return claims
+	return claims, nil
 }
