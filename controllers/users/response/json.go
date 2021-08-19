@@ -12,7 +12,7 @@ type User struct {
 	DeletedAt time.Time `json:"deletedAt"`
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
-	Token     string    `json:"token"`
+	//Token     string    `json:"token"`
 }
 
 func FromDomain(domain users.Domain) User {
@@ -23,6 +23,6 @@ func FromDomain(domain users.Domain) User {
 		DeletedAt: domain.DeletedAt,
 		Name:      domain.Name,
 		Email:     domain.Email,
-		Token:     domain.Token,
+		//Token:     domain.Token,
 	}
 }

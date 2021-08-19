@@ -31,6 +31,7 @@ type UseCase interface {
 	Store(ctx context.Context, noteDomain *Domain) error
 	Update(ctx context.Context, noteDomain *Domain, id string) error
 	Delete(ctx context.Context, id string) error
+	GetNote(ctx context.Context, id int) ([]Domain, error)
 	// GetByActive(ctx context.Context, active bool) ([]Domain, error)
 }
 
@@ -44,4 +45,5 @@ type Repository interface {
 	Store(ctx context.Context, noteDomain *Domain) error
 	Update(ctx context.Context, noteDomain *Domain, id string) error
 	Delete(ctx context.Context, id string) error
+	GetNote(ctx context.Context, id int) ([]Domain, error)
 }

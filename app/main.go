@@ -19,6 +19,10 @@ import (
 	_transactionController "notee/controllers/transactions"
 	_transactionRepo "notee/drivers/databases/transactions"
 
+	_ratingUseCase "notee/business/ratings"
+	_ratingController "notee/controllers/ratings"
+	_ratingRepo "notee/drivers/databases/ratings"
+
 	_dbHelper "notee/helpers/databases"
 
 	"time"
@@ -50,6 +54,7 @@ func dbMigrate(db *gorm.DB) {
 		&_userRepo.User{},
 		&_noteRepo.Note{},
 		&_transactionRepo.Transaction{},
+		&_ratingRepo.Rating{},
 	)
 }
 
@@ -94,6 +99,10 @@ func main() {
 	transactionRepo := _transactionRepo.NewMysqlTransactionRepository(db)
 	newTransactionUsecase := _transactionUseCase.NewTransactionUsecase(transactionRepo, timeoutContext)
 	transactionCtrl := _transactionController.NewTransactionController(newTransactionUsecase)
+	
+	ratingRepo := _ratingRepo.NewMysqlRatingRepository(db)
+	newRatingUsecase := _ratingUseCase.NewRatingUsecase(ratingRepo, timeoutContext)
+	ratingCtrl := _ratingController.NewRatingController(newRatingUsecase)
 
 	// eAuth := e.Group("")
 	// eAuth.Use(middleware.JWT([]byte(viper.GetString(`jwt.Key`)))
@@ -108,6 +117,7 @@ func main() {
 		NoteController:     *noteCtrl,
 		CategoryController: *categoryCtrl,
 		TransactionController: *transactionCtrl,
+		RatingController: *ratingCtrl,
 	}
 	routesInit.RouteRegister(e)
 	log.Fatal(e.Start(viper.GetString("server.address")))

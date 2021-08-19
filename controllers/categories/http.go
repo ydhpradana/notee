@@ -5,6 +5,7 @@ import (
 	"notee/business/categories"
 	"notee/controllers"
 	"notee/controllers/categories/request"
+	"notee/controllers/categories/response"
 
 	echo "github.com/labstack/echo/v4"
 )
@@ -38,7 +39,12 @@ func (controller *CategoryController) GetByName(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, category)
+	responseController := []response.Category{}
+	for _, value := range category {
+		responseController = append(responseController, response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }
 
 func (controller *CategoryController) GetAll(c echo.Context) error {
@@ -48,7 +54,12 @@ func (controller *CategoryController) GetAll(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, category)
+	responseController := []response.Category{}
+	for _, value := range category {
+		responseController = append(responseController, response.FromDomain(value))
+	}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }
 
 func (ctrl *CategoryController) Store(c echo.Context) error {

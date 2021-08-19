@@ -97,3 +97,14 @@ func (nu *NoteUseCase) Delete(ctx context.Context, id string) error {
 	}
 	return nil
 }
+
+func (nu *NoteUseCase) GetNote(ctx context.Context, UserID int) ([]Domain, error) {
+	ctx, cancel := context.WithTimeout(ctx, nu.ContextTimeout)
+	defer cancel()
+
+	resp, err := nu.NoteRepository.GetNote(ctx, UserID)
+	if err != nil {
+		return []Domain{}, err
+	}
+	return resp, nil
+}

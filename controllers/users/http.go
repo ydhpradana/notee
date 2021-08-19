@@ -1,7 +1,6 @@
 package users
 
 import (
-	"fmt"
 	"net/http"
 	"notee/app/middleware"
 	"notee/business/users"
@@ -31,7 +30,6 @@ func (controller *UserController) Login(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
 
-	
 	//user, err := controller.UserUseCase.Login(c.Request().Context(), userLogin.Email, userLogin.Password)
 	token, err := controller.UserUseCase.CreateToken(ctx, req.Email, req.Password)
 	
@@ -96,7 +94,6 @@ func (ctrl *UserController) FindByToken(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	user, err := ctrl.jwtAuth.GetUser(c)
-	fmt.Println(user)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
