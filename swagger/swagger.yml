@@ -1,0 +1,663 @@
+openapi: 3.0.0
+info:
+  description: Online Note
+  version: 1.0.0
+  title: Notee
+  # put the contact info for your development or API team
+  contact:
+    email: yudhaseptiandry@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: Auth
+  description: Authentication Api
+- name: User
+  description: Data User
+- name: Categories
+  description: Category Note
+- name: Note
+  description: Note
+
+paths:
+  /login:
+    post:
+      tags:
+      - Auth
+      summary: Login User
+      description: |
+        Passing Username And Password to get Token JWT
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        200:
+          description: Response Auth Login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    $ref: '#/components/schemas/JWT'
+        400:
+          description: invalid input, object invalid
+  /register:
+    post:
+      tags:
+      - Auth
+      summary: Register User
+      description: |
+        send some data register
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Yudha
+                email:
+                  type: string
+                  format: email
+                  example: yudha.pradana@amartha.com
+                password:
+                  type: string
+                  example: k!UUdja21Sxh
+      responses:
+        200:
+          description: Response User Register
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    $ref: '#/components/schemas/JWT'
+        400:
+          description: Bad Request
+  /user/profile:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+      - User
+      summary: Retrive data user by token
+      description: |
+        send some data
+      responses:
+        200:
+          description: A data user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+  /categories:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+      - Categories
+      summary: Get List Data Kategori Note
+      description: |
+        get some data category
+      responses:
+        200:
+          description: Response Get Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type : array
+                    items:
+                      $ref: '#/components/schemas/Categories'
+        400:
+          description: Bad Request
+    post:
+      security:
+          - bearerAuth: []
+      tags:
+      - Categories
+      summary: Post Kategori Note
+      description: |
+        post data category
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Puisi
+      responses:
+        200:
+          description: Response Post Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type : object
+        400:
+          description: Bad Request
+  /categories/{catID}:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+      - Categories
+      summary: Kategori Note By ID
+      description: |
+        get data category by id
+      parameters:
+        - in: path
+          name: catID
+          schema:
+            type: integer
+          required: true
+          description: Category ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type : object
+                    $ref: '#/components/schemas/Categories'
+        400:
+          description: Bad Request
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+      - Categories
+      summary: Update Kategori Note By ID
+      description: |
+        put data category by id
+      parameters:
+        - in: path
+          name: catID
+          schema:
+            type: integer
+          required: true
+          description: Category ID
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Puisi
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type : object 
+        400:
+          description: Bad Request    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+      - Categories
+      summary: Delete Kategori Note By ID
+      description: |
+        delete data category
+      parameters:
+        - in: path
+          name: catID
+          schema:
+            type: integer
+          required: true
+          description: Category ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type : object
+        400:
+          description: Bad Request
+  /note:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+      - Note
+      summary: Get List Data Note
+      description: |
+        get some data note
+      responses:
+        200:
+          description: Response Get Note
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type : array
+                    items:
+                      $ref: '#/components/schemas/Notes'
+        400:
+          description: Bad Request
+    post:
+      security:
+          - bearerAuth: []
+      tags:
+      - Note
+      summary: Post Note
+      description: |
+        post data Note
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id :
+                  type: integer
+                  example: 1
+                category_id :
+                  type: integer
+                  example: 1
+                title:
+                  type: string
+                  example: Puisi Aku
+                note:
+                  type: string
+                  example: Aku adalah aku
+                is_free:
+                  type: boolean
+                  example: true
+      responses:
+        200:
+          description: Response Post Note
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type: object
+        400:
+          description: Bad Request
+  /notes/{noteID}:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+      - Note
+      summary: Get Note By ID
+      description: |
+        get data Note by id
+      parameters:
+        - in: path
+          name: noteID
+          schema:
+            type: integer
+          required: true
+          description: Note ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+               schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type: object
+                    $ref:  '#/components/schemas/Notes'
+        400:
+          description: Bad Request
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+      - Note
+      summary: Update a Note by ID.
+      description: |
+        get data Note by id
+      parameters:
+        - in: path
+          name: noteID
+          schema:
+            type: integer
+          required: true
+          description: Note ID
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id :
+                  type: integer
+                  example: 1
+                category_id :
+                  type: integer
+                  example: 1
+                title:
+                  type: string
+                  example: Puisi Aku
+                note:
+                  type: string
+                  example: Aku adalah aku
+                is_free:
+                  type: boolean
+                  example: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+               schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type: object
+        400:
+          description: Bad Request   
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+      - Note
+      summary: Delete a Note by ID.
+      description: |
+        get data Note by id
+      parameters:
+        - in: path
+          name: noteID
+          schema:
+            type: integer
+          required: true
+          description: Note ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+               schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  data:
+                    type: object
+        400:
+          description: Bad Request   
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Login:
+      type: object
+      required:
+      - email
+      - password
+      properties:
+        email:
+          type: string
+          example: jhon@doe@gmail.com
+        password:
+          type: string
+          example: QwanjjaseuQeq
+          description: encrypted password AES
+    Register:
+      type: object
+      required:
+      - name
+      - email
+      - password
+      - created_at
+      - updated_at
+      properties:
+        name:
+          type: string
+          example: jhon@doe@gmail.com
+        email:
+          type: string
+          example: jhon@doe@gmail.com
+        password:
+          type: string
+          example: QwanjjaseuQeq
+          description: encrypted password AES
+        created_at:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+        updated_at:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Yudha
+        email:
+          type: string
+          example: yudha.pradana@amartha.com
+        created_at:
+          type: string
+          format: date-time
+          example: 2021-08-09T12:02:57Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2021-08-09T12:02:57Z
+    Categories:
+      type: object
+      required:
+      - id
+      - name
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Puisi
+        created_at:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+        updated_at:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+    Notes:
+      type: object
+      required:
+      - user_id
+      - user_name
+      - category_id
+      - category_name
+      - title
+      - note
+      - is_free
+      - created_at
+      - updated_at
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        user_name:
+          type: string
+          example: Yudha
+        category_id:
+          type: integer
+          example: 1
+        category_name:
+          type: string
+          example: "Puisi"
+        title:
+          type: string
+          example: Aku
+        note:
+          type: string
+          example: Aku adalah Aku
+        is_free:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+        updated_at:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+    JWT:
+      type: object
+      required:
+      - token
+      - expire_token
+      - refresh_token
+      - expire_refresh_token
+      properties:
+        email:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.|eyJleHAiOjE2Mjg1MTA1NzcsImp0aSI6ImV5SmhiR2NpT2l a7C6ZcazsgjdKXR2eXOPRzBhRv99NOaDMNN2gyYDE2Y
+        expire_token:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.|eyJleHAiOjE2Mjg1MTA1NzcsImp0aSI6ImV5SmhiR2NpT2l a7C6ZcazsgjdKXR2eXOPRzBhRv99NOaDMNN2gyYDE2Y
+        expire_refresh_token:
+          type: string
+          example: 2021-08-09T12:02:57Z
+          format: date-time
+  
+security:
+  - bearerAuth: []
