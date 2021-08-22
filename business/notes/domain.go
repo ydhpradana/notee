@@ -11,11 +11,8 @@ type Domain struct {
 	Id        		uint
 	Title      		string
 	Note      		string
-<<<<<<< HEAD
 	CategoryName    string
 	UserName      	string
-=======
->>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 	CategoryId      int
 	Category    	categories.Category
 	UserId      	int
@@ -24,10 +21,6 @@ type Domain struct {
 	CreatedAt 		time.Time
 	UpdatedAt 		time.Time
 	DeletedAt 		time.Time
-<<<<<<< HEAD
-	Rating			float64
-=======
->>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 }
 
 type UseCase interface {
