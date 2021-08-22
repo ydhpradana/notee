@@ -11,6 +11,8 @@ type Domain struct {
 	Id        		uint
 	Title      		string
 	Note      		string
+	CategoryName    string
+	UserName      	string
 	CategoryId      int
 	Category    	categories.Category
 	UserId      	int

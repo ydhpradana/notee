@@ -72,7 +72,7 @@ func (repository *MysqlNoteRepository) FindByUserId(ctx context.Context, userId 
 func (repository *MysqlNoteRepository) FindByIsFree(ctx context.Context, free string) ([]notes.Domain, error) {
 	rec := []Note{}
 	is_free, _ := strconv.Atoi(free)
-	err := repository.Conn.Preload("Categories").Preload("Users").Where("isFree = ?", is_free).Find(&rec).Error
+	err := repository.Conn.Preload("Categories").Preload("Users").Where("is_free = ?", is_free).Find(&rec).Error
 	if err != nil {
 		return []notes.Domain{}, err
 	}
@@ -85,7 +85,13 @@ func (repository *MysqlNoteRepository) FindByIsFree(ctx context.Context, free st
 
 func (repository *MysqlNoteRepository) FindAll(ctx context.Context) ([]notes.Domain, error) {
 	rec := []Note{}
+	// query := `SELECT notes.*, users.*, categories.* , AVG(ratings.rating) "rating" FROM notes 
+	// 			join ratings on ratings.note_id =notes.id
+	// 			join users on users.id =notes.user_id
+	// 			join categories on categories.id =notes.category_id`
 	err := repository.Conn.Preload("Categories").Preload("Users").Find(&rec).Error
+	//err := repository.Conn.Raw(query).Find(&rec).Error
+	//fmt.Printf("%+v", rec)
 	if err != nil {
 		return []notes.Domain{}, err
 	}
@@ -133,6 +139,11 @@ func (repository *MysqlNoteRepository) GetNote(ctx context.Context, userID int) 
 	rec := []Note{}
 
 	err := repository.Conn.Preload("Categories").Preload("Users").Where("notes.user_id = ?", userID).Find(&rec).Error
+	// query := `SELECT notes.*, users.*, categories.* , AVG(ratings.rating) "rating" FROM notes 
+	// 			join ratings on ratings.note_id =notes.id
+	// 			join users on users.id =notes.user_id
+	// 			join categories on categories.id =notes.category_id`
+	// err := repository.Conn.Raw(query).Where("notes.user_id = ?", userID).Find(&rec).Error
 	//err := repository.Conn.Preload(clause.Associations).Where("transactions.user_id = ?", userID).Find(&rec).Error
 	if err != nil {
 		return []notes.Domain{}, err

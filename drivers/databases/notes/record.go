@@ -18,8 +18,10 @@ type Note struct {
 	Categories  categories.Category `gorm:"foreignKey:CategoryId;references:Id"`
 	UserId		int		  `json:"user_id"`
 	Users       users.User `gorm:"foreignKey:UserId;references:ID"`
-	IsFree      bool      `json:"isFree"`
+	IsFree      bool      `json:"is_free"`
+	//Rating     float64   `json:"rating"`
 }
+
 
 func (rec *Note) toDomain() notes.Domain {
 	return notes.Domain{

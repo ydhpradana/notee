@@ -41,5 +41,6 @@ func fromDomain(rating ratings.Domain) *Rating {
 		Rating:      rating.Rating,
 		Review:       rating.Review,
 		UserId:     rating.UserId,
+		NoteId:     rating.NoteId,
 	}
 }

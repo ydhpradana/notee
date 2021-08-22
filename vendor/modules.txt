@@ -1,6 +1,7 @@
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible
 ## explicit
-github.com/dgrijalva/jwt-go
 # github.com/fsnotify/fsnotify v1.4.7
 github.com/fsnotify/fsnotify
 # github.com/go-sql-driver/mysql v1.6.0
@@ -25,7 +26,10 @@ github.com/jinzhu/inflection
 github.com/jinzhu/now
 # github.com/labstack/echo v3.3.10+incompatible
 ## explicit
+<<<<<<< HEAD
+=======
 github.com/labstack/echo
+>>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 # github.com/labstack/echo/v4 v4.5.0
 ## explicit
 github.com/labstack/echo/v4
@@ -46,6 +50,11 @@ github.com/mattn/go-isatty
 github.com/mitchellh/mapstructure
 # github.com/pelletier/go-toml v1.2.0
 github.com/pelletier/go-toml
+<<<<<<< HEAD
+# github.com/pmezard/go-difflib v1.0.0
+github.com/pmezard/go-difflib/difflib
+=======
+>>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 # github.com/spf13/afero v1.1.2
 github.com/spf13/afero
 github.com/spf13/afero/mem
@@ -58,14 +67,28 @@ github.com/spf13/pflag
 # github.com/spf13/viper v1.7.0
 ## explicit
 github.com/spf13/viper
+<<<<<<< HEAD
+# github.com/stretchr/objx v0.1.1
+github.com/stretchr/objx
 # github.com/stretchr/testify v1.7.0
 ## explicit
+github.com/stretchr/testify/assert
+github.com/stretchr/testify/mock
+=======
+# github.com/stretchr/testify v1.7.0
+## explicit
+>>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 # github.com/subosito/gotenv v1.2.0
 github.com/subosito/gotenv
 # github.com/valyala/bytebufferpool v1.0.0
 github.com/valyala/bytebufferpool
 # github.com/valyala/fasttemplate v1.2.1
 github.com/valyala/fasttemplate
+<<<<<<< HEAD
+# github.com/vektra/mockery/v2 v2.9.0
+## explicit
+=======
+>>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 # golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97
 ## explicit
 golang.org/x/crypto/acme
@@ -96,6 +119,10 @@ gopkg.in/ini.v1
 gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 ## explicit
+<<<<<<< HEAD
+gopkg.in/yaml.v3
+=======
+>>>>>>> ad2ebeb9114d247839437a66a9b8d04ed27879d4
 # gorm.io/driver/mysql v1.1.1
 ## explicit
 gorm.io/driver/mysql

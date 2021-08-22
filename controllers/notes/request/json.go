@@ -7,7 +7,7 @@ type Notes struct {
 	Note string `json:"note"`
 	CategoryId int `json:"category_id"`
 	UserId int `json:"user_id"`
-	IsFree bool `json:"isFree"`
+	IsFree bool `json:"is_free"`
 }
 
 func (req *Notes) ToDomain() *notes.Domain {
