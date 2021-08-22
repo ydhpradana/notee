@@ -6,6 +6,7 @@ import (
 	"notee/business/transactions"
 	"notee/controllers"
 	"notee/controllers/transactions/request"
+	"notee/controllers/transactions/response"
 
 	echo "github.com/labstack/echo/v4"
 )
@@ -48,5 +49,10 @@ func (controller *TransactionController) GetTrx(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, resp)
+	responseController := []response.Transaction{}
+	for _, value := range resp {
+	responseController = append(responseController, response.FromDomain(value))
+}
+
+	return controllers.NewSuccessResponse(c, responseController)
 }

@@ -2,20 +2,19 @@ package response
 
 import (
 	"notee/business/ratings"
-	"notee/drivers/databases/users"
 	"time"
 )
 
 type Rating struct {
 	Id         uint                `json:"id"`
-	CreatedAt  time.Time           `json:"createdAt"`
-	UpdatedAt  time.Time           `json:"updatedAt"`
-	DeletedAt  time.Time           `json:"deletedAt"`
+	CreatedAt  time.Time           `json:"created_at"`
+	UpdatedAt  time.Time           `json:"updated_at"`
+	DeletedAt  time.Time           `json:"deleted_at"`
 	Rating      int                `json:"rating"`
 	Review       string            `json:"review"`
 	UserId     int                 `json:"user_id"`
 	NoteId     int                 `json:"note_id"`
-	User       users.User          `json:"user"`
+	UserName       string          `json:"user_name"`
 }
 
 func FromDomain(domain ratings.Domain) Rating {
@@ -28,7 +27,7 @@ func FromDomain(domain ratings.Domain) Rating {
 		Review:       domain.Review,
 		UserId:     domain.UserId,
 		NoteId:     domain.NoteId,
-		User:       domain.User,
+		UserName:       domain.User.Name,
 		//Token:     domain.Token,
 	}
 }
